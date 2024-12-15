@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import CustomTable from "./CustomTable"
 import { get_total_issued } from "../redux/actions/transaction"
 import { Link, useNavigate } from "react-router-dom"
@@ -10,15 +10,16 @@ const Issues = ({ issues, get_total_issued, set_page_title }) => {
 
 
     const navigate = useNavigate();
+    const [tableData, setTableData] = useState([]);
     const columns = [
         {
             name: 'Book Title',
-            selector: row => row.book.title,
+            selector: row => row.title,
             sortable: true,
         },
         {
             name: 'Issued To',
-            selector: row => row.issueTo.firstName + ' ' + row.issueTo.lastName,
+            selector: row => row.issuedTo,
             sortable: true,
         },
         {
@@ -38,7 +39,7 @@ const Issues = ({ issues, get_total_issued, set_page_title }) => {
         },
         {
             name: 'Status',
-            selector: row => row.transactionType || '-',
+            selector: row => row.status || '-',
             sortable: true,
         },
         {
@@ -51,6 +52,20 @@ const Issues = ({ issues, get_total_issued, set_page_title }) => {
     const action = () => {
         navigate('/issue-book/0')
     }
+    useEffect(()=>{
+       const tableData =  (issues || []).map(issue =>{
+            return{
+                id:issue.id,
+                title:issue.book.title,
+                issuedTo:issue?.issueTo.firstName + ' ' + issue?.issueTo.lastName,
+                borrowDate:issue.borrowDate,
+                dueDate:issue.dueDate,
+                returnDate:issue.returnDate,
+                status:issue.transactionType
+            }
+        })
+        setTableData([...tableData])
+    },[issues])
     useEffect(() => {
         set_page_title("Issued Books")
         get_total_issued();
@@ -60,7 +75,7 @@ const Issues = ({ issues, get_total_issued, set_page_title }) => {
         <div className='mx-4 my-4'>
             <CustomTable
                 columns={[...columns]}
-                data={[...issues]}
+                data={[...tableData]}
                 action={action}
             />
         </div>

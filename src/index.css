@@ -7,6 +7,7 @@
 }
 .rdt_TableCell{
   /* font-size: 0.98rem !important; */
+  padding: 0 0 !important;
   justify-content: center;
 }
   .react-dropdown-select-input::placeholder{
