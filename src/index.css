@@ -1,0 +1,14 @@
+.caNzNe{
+  /* font-size: 0.98rem !important; */
+  justify-content: center;
+}
+.rdt_TableCol .rdt_TableCol_Sortable{
+  justify-content: center;
+}
+.rdt_TableCell{
+  /* font-size: 0.98rem !important; */
+  justify-content: center;
+}
+  .react-dropdown-select-input::placeholder{
+    font-size:0.98rem !important;
+  }
